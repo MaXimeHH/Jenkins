@@ -5,7 +5,7 @@ pipeline {
         stage('Build') {
             steps {
                 // Build the Maven project
-                sh 'mvn -v'
+
                 sh 'mvn clean install'
             }
         }
