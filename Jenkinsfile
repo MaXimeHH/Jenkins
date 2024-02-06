@@ -4,16 +4,14 @@ pipeline {
     stages {
         stage('Install Maven') {
             steps {
-                script {
-                    // Télécharger le fichier zip de Maven
-                    sh 'curl -O https://repo.maven.apache.org/maven2/org/apache/maven/apache-maven/3.9.2/apache-maven-3.9.2-bin.zip'
+                // Télécharger le fichier zip de Maven
+                sh 'curl -O https://repo.maven.apache.org/maven2/org/apache/maven/apache-maven/3.9.2/apache-maven-3.9.2-bin.zip'
 
-                    // Décompresser le fichier zip
-                    sh 'unzip apache-maven-3.9.2-bin.zip'
+                // Décompresser le fichier zip
+                sh 'unzip apache-maven-3.9.2-bin.zip'
 
-                    // Déplacer Maven dans un répertoire approprié
-                    sh 'mv apache-maven-3.9.2 /opt/maven'
-                }
+                // Déplacer Maven dans un répertoire approprié
+                sh 'mv apache-maven-3.9.2 /opt/maven'
             }
         }
 
@@ -35,12 +33,14 @@ pipeline {
 
         stage('Test') {
             steps {
+                // Exécuter les tests
                 sh 'mvn test'
             }
         }
 
         stage('Deploy') {
             steps {
+                // Déployer l'application
                 sh 'mvn deploy'
             }
         }
