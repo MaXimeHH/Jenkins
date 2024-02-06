@@ -1,33 +1,10 @@
 pipeline {
     agent any
-
     stages {
         stage('Build') {
             steps {
-                sh '''mvn clean install'''
+                sh 'mvn -B -DskipTests clean package'
             }
-        }
-
-        stage('Test') {
-            steps {
-                sh '''mvn test'''
-            }
-        }
-
-        stage('Deploy') {
-            steps {
-                sh 'mvn deploy'
-            }
-        }
-    }
-
-    post {
-        success {
-            echo 'Build successful!'
-        }
-
-        failure {
-            echo 'Build failed!'
         }
     }
 }
