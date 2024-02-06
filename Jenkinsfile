@@ -2,10 +2,33 @@ pipeline {
     agent any
 
     stages {
+        stage('Install Maven') {
+            steps {
+                script {
+                    // Télécharger le fichier zip de Maven
+                    sh 'curl -O https://repo.maven.apache.org/maven2/org/apache/maven/apache-maven/3.9.2/apache-maven-3.9.2-bin.zip'
+
+                    // Décompresser le fichier zip
+                    sh 'unzip apache-maven-3.9.2-bin.zip'
+
+                    // Déplacer Maven dans un répertoire approprié
+                    sh 'mv apache-maven-3.9.2 /opt/maven'
+                }
+            }
+        }
+
         stage('Build') {
             steps {
-                // Build the Maven project
+                // Configure les variables d'environnement pour Maven
+                environment {
+                    MAVEN_HOME = '/opt/maven'
+                    PATH = "${MAVEN_HOME}/bin:${PATH}"
+                }
 
+                // Vérifie que Maven est correctement installé
+                sh 'mvn -version'
+
+                // Build le projet Maven
                 sh 'mvn clean install'
             }
         }
