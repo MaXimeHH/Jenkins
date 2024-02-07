@@ -12,11 +12,13 @@ pipeline {
                 sh 'mvn test'
             }
             post {
-                always {
-                    junit 'target/surefire-reports/*.xml'
+                    always{
+                        xunit (
+                            thresholds: [ skipped(failureThreshold: '0'), failed(failureThreshold: '0') ],
+                            tools: [ BoostTest(pattern: 'boost/*.xml') ]
+                        )
+                    }
                 }
-            }
-        }
         stage('Deploy') {
             steps {
                 sh './jenkins/scripts/deliver.sh'
