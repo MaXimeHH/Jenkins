@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh 'mvn -B -DskipTests clean package'
+                sh 'mvn clean install -DskipTests'
             }
         }
         stage('Tests') {
@@ -11,12 +11,9 @@ pipeline {
 
                 sh 'mvn test'
             }
-         post {
-                always{
-                    xunit (
-                        thresholds: [ skipped(failureThreshold: '0'), failed(failureThreshold: '0') ],
-                        tools: [ BoostTest(pattern: 'target/surefire-reports/*.xml') ]
-                    )
+            post {
+                always {
+                    junit 'target/surefire-reports/*.xml'
                 }
             }
         }
